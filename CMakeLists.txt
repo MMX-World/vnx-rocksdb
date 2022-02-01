@@ -50,8 +50,10 @@ if(MSVC)
 	target_link_libraries(test_table Rpcrt4 shlwapi)
 
 	set_target_properties(test_table PROPERTIES LINK_OPTIONS "/NODEFAULTLIB:LIBCMT")
+	
+	target_include_directories(test_table PUBLIC ${VNXBASE_BINARY_DIR})
 endif()
-target_include_directories(test_table PUBLIC ${VNXBASE_BINARY_DIR})
+
 
 install(DIRECTORY include/ DESTINATION include)
 
