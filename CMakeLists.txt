@@ -10,6 +10,8 @@ endif()
 
 add_compile_options(-DNOGDI)
 
+find_package(ZLIB REQUIRED)
+
 add_library(vnx_rocksdb SHARED
 	src/dummy.cpp
 )
@@ -18,7 +20,7 @@ target_include_directories(vnx_rocksdb
 	PUBLIC
 		include
 )
-target_link_libraries(vnx_rocksdb rocksdb z)
+target_link_libraries(vnx_rocksdb rocksdb ZLIB::ZLIB)
 
 if(MSVC)
 
@@ -28,11 +30,11 @@ if(MSVC)
 	
 	target_include_directories(vnx_rocksdb PRIVATE ${RocksDB_INCLUDE_DIR})
 
-	find_library(ZLIB_LIBRARY zlib HINTS ${ZLIB_LIBRARIES})
-	add_library(z INTERFACE IMPORTED)
-	set_target_properties(z PROPERTIES INTERFACE_LINK_LIBRARIES "${ZLIB_LIBRARY}")
+	# find_library(ZLIB_LIBRARY zlib HINTS ${ZLIB_LIBRARIES})
+	# add_library(z INTERFACE IMPORTED)
+	# set_target_properties(z PROPERTIES INTERFACE_LINK_LIBRARIES "${ZLIB_LIBRARY}")
 	
-	target_include_directories(vnx_rocksdb PRIVATE ${ZLIB_INCLUDE_DIR})
+	# target_include_directories(vnx_rocksdb PRIVATE ${ZLIB_INCLUDE_DIR})
 	
 	set_target_properties(vnx_rocksdb PROPERTIES ENABLE_EXPORTS 1)
 	set_target_properties(vnx_rocksdb PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS 1)
